@@ -2,7 +2,6 @@ package maps
 
 import (
 	"reflect"
-	"slices"
 	"testing"
 )
 
@@ -33,11 +32,7 @@ func TestValues(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Values(tt.args.m); !reflect.DeepEqual(got, tt.want) {
-				sortGot := got
-				slices.Sort(sortGot)
-				sortWant := tt.want
-				slices.Sort(sortWant)
+			if got := sort(Values(tt.args.m)); !reflect.DeepEqual(got, sort(tt.want)) {
 				t.Errorf("Values() = %v, want %v", got, tt.want)
 			}
 		})
