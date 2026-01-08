@@ -1,6 +1,7 @@
 package maps
 
 import (
+	stdmaps "maps"
 	"reflect"
 	"slices"
 	"testing"
@@ -33,13 +34,27 @@ func TestKeys(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Keys(tt.args.m); !reflect.DeepEqual(got, tt.want) {
-				sortGot := got
-				slices.Sort(sortGot)
-				sortWant := tt.want
-				slices.Sort(sortWant)
-				t.Errorf("Keys() = %v, want %v", got, tt.want)
+			got := Keys(tt.args.m)
+			slices.Sort(got)
+			want := tt.want
+			slices.Sort(want)
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("Keys() = %v, want %v", got, want)
 			}
 		})
 	}
+}
+
+// Example showing how to use the standard library maps.Keys with slices.Collect.
+// This is the recommended approach going forward.
+func ExampleKeys_standardLibrary() {
+	m := map[int]string{1: "one", 2: "two", 3: "three"}
+
+	// New way: use standard library
+	keys := slices.Collect(stdmaps.Keys(m))
+	slices.Sort(keys)
+
+	// Output can't be guaranteed due to map iteration order,
+	// but this demonstrates the pattern
+	_ = keys
 }

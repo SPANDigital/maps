@@ -1,6 +1,7 @@
 package maps
 
 import (
+	stdmaps "maps"
 	"reflect"
 	"slices"
 	"testing"
@@ -40,4 +41,18 @@ func TestValues(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Example showing how to use the standard library maps.Values with slices.Collect.
+// This is the recommended approach going forward.
+func ExampleValues_standardLibrary() {
+	m := map[int]string{1: "one", 2: "two", 3: "three"}
+
+	// New way: use standard library
+	values := slices.Collect(stdmaps.Values(m))
+	slices.Sort(values)
+
+	// Output can't be guaranteed due to map iteration order,
+	// but this demonstrates the pattern
+	_ = values
 }
